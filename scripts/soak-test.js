@@ -20,7 +20,7 @@ export const options = {
 };
 
 export default function () {
-  const url = getApiUrl('/get');
+  const url = getApiUrl('/books');
   const res = http.get(url);
   check(res, { 'status is 200': (r) => r.status === 200 });
   sleep(1);
