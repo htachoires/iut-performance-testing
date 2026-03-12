@@ -1,0 +1,18 @@
+# InfluxDB 2 datasource for k6 metrics (auto-provisioned).
+# Defaults must match docker-compose env (org: k6, bucket: k6, token: k6-influxdb-token).
+apiVersion: 1
+datasources:
+  - name: InfluxDB-k6
+    uid: influxdb-k6
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: k6
+      defaultBucket: k6
+      tlsSkipVerify: true
+    secureJsonData:
+      token: k6-influxdb-token
+    isDefault: true
+    editable: false

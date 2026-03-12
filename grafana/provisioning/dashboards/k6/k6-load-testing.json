@@ -1,0 +1,83 @@
+{
+  "id": null,
+  "uid": "k6-load-testing",
+  "title": "k6 Load Testing",
+  "description": "k6 metrics from InfluxDB 2 (xk6-output-influxdb). For more panels, import dashboard 19431 from Grafana.com.",
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "id": 1,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"vus\") |> last()", "refId": "A" }],
+      "title": "Virtual users (current)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "fieldConfig": { "defaults": { "displayName": "Total", "color": { "mode": "palette-classic" } } },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "id": 2,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_reqs\") |> group(columns: []) |> count()", "refId": "A" }],
+      "title": "HTTP requests (total)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "fieldConfig": { "defaults": { "displayName": "Requêtes/s", "color": { "mode": "palette-classic" }, "custom": { "axisCenteredZero": false, "drawStyle": "line", "fillOpacity": 10, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "auto", "spanNulls": false }, "unit": "reqps" } },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "id": 3,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "single", "sort": "none" } },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_reqs\") |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, fn: count, createEmpty: false) |> yield(name: \"rate\")", "refId": "A" }],
+      "title": "HTTP request rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "fieldConfig": { "defaults": { "displayName": "Durée moyenne", "color": { "mode": "palette-classic" }, "custom": { "axisCenteredZero": false, "drawStyle": "line", "fillOpacity": 10, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "auto", "spanNulls": false }, "unit": "ms" } },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "id": 4,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "single", "sort": "none" } },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\") |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, fn: mean, createEmpty: false) |> yield(name: \"duration\")", "refId": "A" }],
+      "title": "HTTP request duration (mean)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisCenteredZero": false, "drawStyle": "line", "fillOpacity": 10, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "auto", "spanNulls": false }, "unit": "short" } },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "id": 5,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "single", "sort": "none" } },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"vus\") |> yield(name: \"vus\")", "refId": "A" }],
+      "title": "Virtual users over time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "influxdb-k6" },
+      "fieldConfig": { "defaults": { "displayName": "Taux d'échec", "color": { "mode": "palette-classic" }, "custom": { "axisCenteredZero": false, "drawStyle": "line", "fillOpacity": 10, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "auto", "spanNulls": false }, "unit": "percentunit" } },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "id": 6,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "single", "sort": "none" } },
+      "targets": [{ "datasource": { "type": "influxdb", "uid": "influxdb-k6" }, "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_failed\") |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, fn: mean, createEmpty: false) |> yield(name: \"failed\")", "refId": "A" }],
+      "title": "HTTP request failures",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["k6", "load-testing"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timezone": "",
+  "version": 1,
+  "folderUid": "k6",
+  "overwrite": true
+}
