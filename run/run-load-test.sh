@@ -1,6 +1,7 @@
 #!/bin/bash
-# Run k6 Load Test via Docker (metrics → InfluxDB)
-# Prereqs: .env with BASE_URL. TOTAL_ITEMS obligatoire (nombre d'éléments en base).
+# Run k6 Load Test (exemple ~2 min) via Docker. Métriques → InfluxDB.
+# Prereqs: .env avec BASE_URL. TOTAL_ITEMS obligatoire (nombre d'éléments en base).
+# Pour des durées plus longues, voir le commentaire en tête de scripts/load-test.js.
 # Usage: ./run/run-load-test.sh TOTAL_ITEMS   (ex: ./run/run-load-test.sh 10000)
 set -e
 if [[ -z "${1:-}" ]]; then

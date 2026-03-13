@@ -36,11 +36,12 @@ temps de réponse lorsque le nombre de livres en base augmente.
 | **Soak**   | Endurance : charge soutenue dans le temps (détection de fuites, dégradation).    |
 | **Stress** | Montée progressive au-delà du nominal pour trouver la limite et la récupération. |
 
-Pour tenir en **1h30**, on utilise les **versions courtes** des scripts (~2 min
-par exécution) :  
-`load-test-short.js`, `spike-test-short.js`, `soak-test-short.js`,
-`stress-test-short.js`.  
-Ces scripts appellent `GET /books?page=…&pageSize=…` en choisissant une **page
+Pour tenir en **1h30**, les scripts sont des **exemples courts** (~2 min par
+exécution) :  
+`load-test.js`, `spike-test.js`, `soak-test.js`, `stress-test.js`.  
+Chaque script indique en en-tête quelles durées utiliser pour un test réel ou
+production.  
+Ils appellent `GET /books?page=…&pageSize=…` en choisissant une **page
 aléatoire** à chaque requête, en fonction du **nombre d’éléments en base** que
 vous fournissez à l’exécution (voir partie 3.2).
 
@@ -119,7 +120,7 @@ la réponse contient bien environ 1 000 entrées.
 ## Partie 3 — Exécution des tests par type et par volume (45 min)
 
 Pour chaque **volume** (1k, 10k, 100k, 1M), vous allez exécuter les **quatre**
-tests courts (load, spike, soak, stress) et noter les métriques (temps de
+tests (load, spike, soak, stress) et noter les métriques (temps de
 réponse, débit, taux d’échec).
 
 ### 3.1 Ordre conseillé
@@ -137,7 +138,7 @@ tests.
 (Le seed 1M peut être lancé en début de séance depuis Aspire pour qu’il tourne
 pendant que vous faites d’autres mesures.)
 
-### 3.2 Lancer les tests (versions courtes)
+### 3.2 Lancer les tests
 
 Depuis **iut-performance-testing**, avec `BASE_URL` déjà configuré dans `.env`.
 
@@ -151,10 +152,10 @@ pages (avec `pageSize=100`).
 docker compose up -d influxdb grafana
 
 # TOTAL_ITEMS est obligatoire (ex. 10 000 après seed-10k)
-./run/run-load-test-short.sh 10000
-./run/run-spike-test-short.sh 10000
-./run/run-soak-test-short.sh 10000
-./run/run-stress-test-short.sh 10000
+./run/run-load-test.sh 10000
+./run/run-spike-test.sh 10000
+./run/run-soak-test.sh 10000
+./run/run-stress-test.sh 10000
 ```
 
 ### 3.3 Tableaux de résultats à remplir

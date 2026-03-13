@@ -1,6 +1,7 @@
 #!/bin/bash
-# Run k6 Soak Test via Docker (metrics → InfluxDB)
-# Prereqs: .env with BASE_URL. TOTAL_ITEMS obligatoire.
+# Run k6 Soak Test (exemple ~2 min) via Docker. Métriques → InfluxDB.
+# Prereqs: .env avec BASE_URL. TOTAL_ITEMS obligatoire.
+# Pour des durées plus longues, voir le commentaire en tête de scripts/soak-test.js.
 # Usage: ./run/run-soak-test.sh TOTAL_ITEMS
 set -e
 if [[ -z "${1:-}" ]]; then

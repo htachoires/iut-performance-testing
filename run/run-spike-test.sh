@@ -1,6 +1,7 @@
 #!/bin/bash
-# Run k6 Spike Test via Docker (metrics → InfluxDB)
-# Prereqs: .env with BASE_URL. TOTAL_ITEMS obligatoire.
+# Run k6 Spike Test (exemple ~2 min) via Docker. Métriques → InfluxDB.
+# Prereqs: .env avec BASE_URL. TOTAL_ITEMS obligatoire.
+# Pour des durées plus longues, voir le commentaire en tête de scripts/spike-test.js.
 # Usage: ./run/run-spike-test.sh TOTAL_ITEMS
 set -e
 if [[ -z "${1:-}" ]]; then
