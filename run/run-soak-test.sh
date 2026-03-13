@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Run k6 Soak Test via Docker (metrics → InfluxDB)
 # Prereqs: .env with BASE_URL
 set -e
