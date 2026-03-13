@@ -139,7 +139,8 @@
         "defaults": {
           "displayName": "Errors per Second",
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed",
+            "fixedColor": "red"
           },
           "custom": {
             "axisCenteredZero": false,
@@ -332,7 +333,8 @@
           "displayName": "Total",
           "unit": "short",
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed",
+            "fixedColor": "red"
           }
         }
       },
@@ -620,6 +622,52 @@
         "type": "influxdb",
         "uid": "influxdb-k6"
       },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 0,
+        "y": 11
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-k6"
+          },
+          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: []) |> quantile(q: 0.99)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "displayName": "p99",
+          "unit": "ms",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "title": "http_req_duration (p99)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-k6"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -646,7 +694,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 16
       },
       "id": 11,
       "options": {
@@ -675,7 +723,7 @@
             "type": "influxdb",
             "uid": "influxdb-k6"
           },
-          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, column: \"_value\", fn: (column, tables=<-) => tables |> quantile(q: 0.95, column: column), createEmpty: false) |> yield(name: \"p95\")",
+          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, column: \"_value\", fn: (column, tables=<-) => tables |> quantile(q: 0.99, column: column), createEmpty: false) |> yield(name: \"p99\")",
           "refId": "B"
         },
         {
@@ -683,8 +731,16 @@
             "type": "influxdb",
             "uid": "influxdb-k6"
           },
-          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, column: \"_value\", fn: (column, tables=<-) => tables |> quantile(q: 0.9, column: column), createEmpty: false) |> yield(name: \"p90\")",
+          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, column: \"_value\", fn: (column, tables=<-) => tables |> quantile(q: 0.95, column: column), createEmpty: false) |> yield(name: \"p95\")",
           "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-k6"
+          },
+          "query": "from(bucket: \"k6\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r._measurement == \"http_req_duration\" and r._field == \"value\") |> toFloat() |> group(columns: [\"_measurement\", \"_field\"]) |> aggregateWindow(every: 1s, column: \"_value\", fn: (column, tables=<-) => tables |> quantile(q: 0.9, column: column), createEmpty: false) |> yield(name: \"p90\")",
+          "refId": "E"
         },
         {
           "datasource": {
@@ -722,7 +778,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 16
       },
       "id": 12,
       "options": {
