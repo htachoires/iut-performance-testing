@@ -52,15 +52,6 @@ docker compose --profile run run --rm k6 run /scripts/load-test.js -o xk6-influx
 
 Or use the helper scripts in the **`run/`** folder (same env and image; scripts switch to project root automatically):
 
-**Windows (PowerShell):**
-```powershell
-.\run\run-load-test.ps1
-.\run\run-spike-test.ps1
-.\run\run-stress-test.ps1
-.\run\run-soak-test.ps1
-```
-
-**Linux / macOS (bash):**
 ```bash
 chmod +x run/run-*-test.sh
 ./run/run-load-test.sh
@@ -133,13 +124,9 @@ You can change the path or add more requests by editing the scripts or the share
 │   ├── stress-test.js
 │   └── soak-test.js
 ├── run/                     # Scripts pour lancer les tests (dossier dédié)
-│   ├── run-load-test.ps1    # Windows
-│   ├── run-load-test.sh     # Linux / macOS
-│   ├── run-spike-test.ps1
+│   ├── run-load-test.sh
 │   ├── run-spike-test.sh
-│   ├── run-stress-test.ps1
 │   ├── run-stress-test.sh
-│   ├── run-soak-test.ps1
 │   └── run-soak-test.sh
 └── README.md
 ```
