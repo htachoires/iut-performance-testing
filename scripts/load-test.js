@@ -2,10 +2,11 @@
  * Load Testing – expected production load.
  * Validates performance under typical/normal load (response times, throughput, error rate).
  * Pattern: ramp-up → sustained load → ramp-down.
+ * Requêtes sur des pages aléatoires : TOTAL_ITEMS obligatoire à l'exécution.
  */
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { getApiUrl } from './lib/config.js';
+import { getRandomBooksPageUrl } from './lib/config.js';
 
 export const options = {
   stages: [
@@ -20,7 +21,7 @@ export const options = {
 };
 
 export default function () {
-  const url = getApiUrl('/books');
+  const url = getRandomBooksPageUrl();
   const res = http.get(url);
   check(res, { 'status is 200': (r) => r.status === 200 });
   sleep(1);

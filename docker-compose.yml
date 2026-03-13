@@ -69,6 +69,9 @@ services:
       K6_INFLUXDB_TOKEN: ${INFLUXDB_TOKEN:-k6-influxdb-token}
       K6_INFLUXDB_ADDR: http://127.0.0.1:8086
       BASE_URL: ${BASE_URL:-https://httpbin.test.k6.io}
+      # Nombre d'éléments en base (pour pagination aléatoire) ; fourni à l'exécution ou dans .env
+      TOTAL_ITEMS: ${TOTAL_ITEMS:-}
+      PAGE_SIZE: ${PAGE_SIZE:-100}
     volumes:
       - ./scripts:/scripts:ro
     profiles:

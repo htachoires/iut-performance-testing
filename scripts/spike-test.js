@@ -2,10 +2,11 @@
  * Spike Testing – sudden traffic spikes.
  * Verifies the system can handle abrupt increases in load (e.g. flash sales, viral events).
  * Pattern: low → very high load in a short time, then ramp-down.
+ * Requêtes sur des pages aléatoires : TOTAL_ITEMS obligatoire à l'exécution.
  */
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { getApiUrl } from './lib/config.js';
+import { getRandomBooksPageUrl } from './lib/config.js';
 
 export const options = {
   stages: [
@@ -22,7 +23,7 @@ export const options = {
 };
 
 export default function () {
-  const url = getApiUrl('/books');
+  const url = getRandomBooksPageUrl();
   const res = http.get(url);
   check(res, { 'status is 200': (r) => r.status === 200 });
   sleep(0.5);

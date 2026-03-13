@@ -1,7 +1,7 @@
 #!/bin/bash
-# Run k6 Soak Test via Docker (metrics → InfluxDB)
-# Prereqs: .env with BASE_URL. TOTAL_ITEMS obligatoire.
-# Usage: ./run/run-soak-test.sh TOTAL_ITEMS
+# Run k6 Soak Test (version courte ~2 min) via Docker.
+# Les requêtes ciblent des pages aléatoires. TOTAL_ITEMS obligatoire.
+# Usage : ./run/run-soak-test-short.sh TOTAL_ITEMS
 set -e
 if [[ -z "${1:-}" ]]; then
   echo "Usage: $0 TOTAL_ITEMS" >&2
@@ -11,4 +11,4 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$(dirname "$SCRIPT_DIR")"
 docker compose up -d influxdb grafana
-docker compose --profile run run --rm -e "TOTAL_ITEMS=$1" k6 run /scripts/soak-test.js -o xk6-influxdb
+docker compose --profile run run --rm -e "TOTAL_ITEMS=$1" k6 run /scripts/soak-test-short.js -o xk6-influxdb
