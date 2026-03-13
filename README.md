@@ -28,6 +28,7 @@ cp .env.example .env
 Edit `.env` and set at least:
 
 - **`BASE_URL`** – base URL of the API you want to test (e.g. `https://api.example.com`). No trailing slash.
+  - **Tests via Docker + API sur la machine** : avec `network_mode: host`, utilisez `BASE_URL=http://localhost:5054` (ou le port de votre app). Vérifiez que l’API écoute sur **toutes les interfaces** (`0.0.0.0:5054`), pas seulement `127.0.0.1`.
 
 You can leave the default InfluxDB/Grafana values if you only run the stack locally with defaults.
 

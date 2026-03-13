@@ -58,6 +58,8 @@ services:
       dockerfile: Dockerfile.k6
     image: iut-k6:latest
     container_name: iut-k6
+    # Use host network so k6 can reach localhost (app on your machine)
+    network_mode: host
     depends_on:
       influxdb:
         condition: service_healthy
@@ -65,7 +67,7 @@ services:
       K6_INFLUXDB_ORGANIZATION: ${INFLUXDB_ORG:-k6}
       K6_INFLUXDB_BUCKET: ${INFLUXDB_BUCKET:-k6}
       K6_INFLUXDB_TOKEN: ${INFLUXDB_TOKEN:-k6-influxdb-token}
-      K6_INFLUXDB_ADDR: http://influxdb:8086
+      K6_INFLUXDB_ADDR: http://127.0.0.1:8086
       BASE_URL: ${BASE_URL:-https://httpbin.test.k6.io}
     volumes:
       - ./scripts:/scripts:ro
